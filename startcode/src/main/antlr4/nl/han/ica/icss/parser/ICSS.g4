@@ -20,6 +20,9 @@ SCALAR: [0-9]+;
 //Color value takes precedence over id idents
 COLOR: '#' [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f];
 
+//Variable identifier
+VAR_IDENT: [A-Z][a-zA-Z0-9]*;
+
 //Specific identifiers for id's and css classes
 ID_IDENT: '#' [a-z0-9\-]+;
 CLASS_IDENT: '.' [a-z0-9\-]+;
@@ -45,5 +48,16 @@ ASSIGNMENT_OPERATOR: ':=';
 
 
 //--- PARSER: ---
-stylesheet: EOF;
-
+//stylesheet: EOF; //EOF IS FILLER (ZELF VERANDEREN) ( TIS MAIN DING ZOALS REEL)
+stylesheet: stylerule+ EOF;
+stylerule: variable*? selector OPEN_BRACE declaration* CLOSE_BRACE;
+selector: (ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT)+;
+declaration: property COLON (value | VAR_IDENT) SEMICOLON;
+property: LOWER_IDENT;
+value: COLOR | PIXELSIZE | PERCENTAGE | SCALAR | TRUE | FALSE | ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT;
+variable: VAR_IDENT ASSIGNMENT_OPERATOR value SEMICOLON;
+//expression:
+//if_clause:
+//else_clause:
+//identifier:
+//
