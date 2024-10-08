@@ -49,19 +49,16 @@ ASSIGNMENT_OPERATOR: ':=';
 
 
 //--- PARSER: ---
-//stylesheet: EOF; //EOF IS FILLER (ZELF VERANDEREN) ( TIS MAIN DING ZOALS REEL)
+//stylesheet: EOF; //EOF IS FILLER (ZELF VERANDEREN) ( TIS MAIN DING ZOALS REEL??)
 stylesheet: stylerule+ EOF;
-stylerule: variable* selector OPEN_BRACE declaration* CLOSE_BRACE;
+stylerule: variable* selector OPEN_BRACE declaration* if_clause* CLOSE_BRACE;
 selector: (ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT)+;
 //declaration: property COLON (value | VAR_IDENT) SEMICOLON;
 declaration: property COLON ((value | VAR_IDENT) operator?)+ SEMICOLON;
 operator: (PLUS | MIN | MUL | DIV);
 property: LOWER_IDENT;
 value: COLOR | PIXELSIZE | PERCENTAGE | SCALAR | TRUE | FALSE | ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT;
-
 variable: VAR_IDENT ASSIGNMENT_OPERATOR value SEMICOLON;
-//expression:
-//if_clause:
-//else_clause:
-//identifier:
-//
+if_clause: IF BOX_BRACKET_OPEN condition BOX_BRACKET_CLOSE OPEN_BRACE declaration* CLOSE_BRACE (else_clause)?;
+else_clause: ELSE OPEN_BRACE declaration* CLOSE_BRACE;
+condition: VAR_IDENT;
