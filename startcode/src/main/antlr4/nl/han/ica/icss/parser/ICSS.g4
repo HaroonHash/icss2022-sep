@@ -50,12 +50,12 @@ ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
 stylesheet: stylerule+;
-stylerule: variable* selector OPEN_BRACE (declaration | if_clause)* CLOSE_BRACE;
-selector: (ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT)+;
+stylerule: variable* selector+ OPEN_BRACE (declaration | if_clause)* CLOSE_BRACE;
 declaration: property COLON ((value | VAR_IDENT) operator?)+ SEMICOLON;
+selector: ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT;
 operator: (PLUS | MIN | MUL | DIV);
 property: LOWER_IDENT;
-value: COLOR | PIXELSIZE | PERCENTAGE | SCALAR | TRUE | FALSE | ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT;
+value: COLOR #color| PIXELSIZE #pixelsize | PERCENTAGE #percentage| SCALAR #scalar| TRUE #truebool| FALSE #falsebool | VAR_IDENT #varident;
 variable: VAR_IDENT ASSIGNMENT_OPERATOR value SEMICOLON;
 if_clause: IF BOX_BRACKET_OPEN condition BOX_BRACKET_CLOSE OPEN_BRACE (declaration | nested_if_clause)* CLOSE_BRACE else_clause?;
 nested_if_clause: IF BOX_BRACKET_OPEN condition BOX_BRACKET_CLOSE OPEN_BRACE declaration* CLOSE_BRACE else_clause?;
