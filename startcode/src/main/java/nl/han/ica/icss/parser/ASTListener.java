@@ -157,10 +157,13 @@ public class ASTListener extends ICSSBaseListener {
             currentContainer.push(operation);
         }
     }
-
     @Override
     public void exitOperator(ICSSParser.OperatorContext ctx) {
         Operation operation = (Operation) currentContainer.pop();
-        currentContainer.peek().addChild(operation);
+        Expression right = (Expression) currentContainer.pop();
+        Expression left = (Expression) currentContainer.pop();
+        operation.addChild(left);
+        operation.addChild(right);
+        currentContainer.push(operation);
     }
 }
