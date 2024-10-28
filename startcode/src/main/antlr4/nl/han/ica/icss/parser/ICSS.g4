@@ -51,12 +51,29 @@ ASSIGNMENT_OPERATOR: ':=';
 //--- PARSER: ---
 stylesheet: stylerule+;
 stylerule: variable* selector+ OPEN_BRACE (declaration | if_clause)* CLOSE_BRACE;
-declaration: property COLON ((value | VAR_IDENT) operator?)+ SEMICOLON;
-selector: ID_IDENT | CLASS_IDENT | LOWER_IDENT | CAPITAL_IDENT;
-operator: (PLUS | MIN | MUL | DIV);
+declaration: property COLON expression SEMICOLON;
+
+selector:   ID_IDENT |
+            CLASS_IDENT |
+            LOWER_IDENT |
+            CAPITAL_IDENT;
+
 property: LOWER_IDENT;
-value: COLOR #color| PIXELSIZE #pixelsize | PERCENTAGE #percentage| SCALAR #scalar| TRUE #truebool| FALSE #falsebool | VAR_IDENT #varident;
-variable: VAR_IDENT ASSIGNMENT_OPERATOR value SEMICOLON;
+
+expression: value #valueExpression|
+            VAR_IDENT #varident|
+            expression (MUL) expression #mulExpression|
+            expression (PLUS) expression #addExpression |
+            expression (MIN) expression #subExpression;
+
+value:          COLOR #color|
+                PIXELSIZE #pixelsize |
+                PERCENTAGE #percentage|
+                SCALAR #scalar|
+                TRUE #truebool|
+                FALSE #falsebool;
+
+variable: VAR_IDENT ASSIGNMENT_OPERATOR expression SEMICOLON;
 if_clause: IF BOX_BRACKET_OPEN condition BOX_BRACKET_CLOSE OPEN_BRACE (declaration | nested_if_clause)* CLOSE_BRACE else_clause?;
 nested_if_clause: IF BOX_BRACKET_OPEN condition BOX_BRACKET_CLOSE OPEN_BRACE declaration* CLOSE_BRACE else_clause?;
 else_clause: ELSE OPEN_BRACE declaration* CLOSE_BRACE;
