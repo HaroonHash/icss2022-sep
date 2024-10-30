@@ -48,7 +48,7 @@ public class Generator {
         String result = stylerule.selectors.get(0).toString() + " {\n";
         for (ASTNode child : stylerule.body) {
             if (child instanceof Declaration) {
-                result += "\t" + generateDeclaration((Declaration) child) + "\n";
+                result += generateDeclaration((Declaration) child) + "\n";
             }
         }
         result += "}\n";
@@ -62,7 +62,7 @@ public class Generator {
 //    }
 
     private String generateDeclaration(Declaration declaration) {
-        return declaration.property.name + ": " + formatExpression(declaration.expression) + ";";
+        return "  " + declaration.property.name + ": " + formatExpression(declaration.expression) + ";";
     }
 
     private String formatExpression(Expression expression) {
