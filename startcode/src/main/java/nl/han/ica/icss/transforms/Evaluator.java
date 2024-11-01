@@ -12,7 +12,6 @@ import nl.han.ica.icss.ast.operations.SubtractOperation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class Evaluator implements Transform {
 

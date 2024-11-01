@@ -6,24 +6,12 @@ import nl.han.ica.icss.ast.literals.ColorLiteral;
 import nl.han.ica.icss.ast.literals.PercentageLiteral;
 import nl.han.ica.icss.ast.literals.PixelLiteral;
 import nl.han.ica.icss.ast.literals.ScalarLiteral;
-import org.w3c.dom.css.CSSStyleRule;
 
 public class Generator {
 
 	public String generate(AST ast) {
         return generateStyleSheet((Stylesheet) ast.root);
 	}
-
-//    private String generateStyleSheet(Stylesheet root) {
-////        return generateStylerule((Stylerule)root.getChildren().get(0));
-//        String result = "";
-//        for (ASTNode child : root.getChildren()) {
-//            if (child instanceof Stylerule) {
-//                result =  generateStylerule((Stylerule) child);
-//            }
-//        }
-//        return result;
-//    }
 
     private String generateStyleSheet(Stylesheet root) {
         String result = "";
@@ -54,12 +42,6 @@ public class Generator {
         result += "}\n";
         return result;
     }
-
-//    private String generateDeclaration(ASTNode astNode) {
-//        return "Declaration";
-////        Declaration declaration = (Declaration) astNode;
-////        return declaration.property.name + ": " + declaration.expression.toString() + ";\n";
-//    }
 
     private String generateDeclaration(Declaration declaration) {
         return "  " + declaration.property.name + ": " + formatExpression(declaration.expression) + ";";
